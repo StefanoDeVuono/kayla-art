@@ -19,6 +19,7 @@ const sketch = p => {
   let cache = []
 
   p.setup = () => {
+    p.background(255)
     p.frameRate(FRAMES_PER_SECOND)
     let canvas = p.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     capture = p.createCapture(p.VIDEO)
@@ -34,10 +35,16 @@ const sketch = p => {
       frame = frames.shift()
       p.image(frame, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
       // p.filter(p.INVERT)
+    } else {
+      let image = getImage(capture)
+      // cache.push(image)
+      frames.push(image)
+      p.image(capture, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
     }
-    frames.push(getImage(capture))
   }
 }
+
+// cache = [123 456 789]
 
 function getImage(capture) {
   return capture.get(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)

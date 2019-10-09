@@ -2,7 +2,11 @@
 
 The idea of the piece is to write an intention in the sand
 It would basically disappear
-Sandbox, sand mandala
+Sandbox, sand mandala (https://en.wikipedia.org/wiki/Sand_mandala)
+putting effort into something that'S going to diesappear
+japanese sand garden: rake rocks, different designs
+childhood no intentions
+common thread: all of it just disappearing
 
 Creating intention or creating a goal or being part of something
 and then letting it go
@@ -37,3 +41,9 @@ if ppl know they're being filmed, are they less risky?
 
 memory (use web db)
 lighting
+
+### philosophy
+
+in memory as metaphor for all of it just disappearing
+how do we just let go physically and digitally
+if you can let go of creation in the sand can you let go of images of self?
