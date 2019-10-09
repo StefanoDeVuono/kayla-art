@@ -3,7 +3,7 @@ const webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
-const title = 'Page Title'
+const title = 'Prototype for Kayla'
 
 module.exports = {
   entry: {
