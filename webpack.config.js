@@ -18,7 +18,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(), // Enable HMR
     new HtmlWebpackPlugin({
       title,
-      template: 'src/index.html'
+      template: 'src/index.html',
+      inject: 'head'
     }),
     new OpenBrowserPlugin()
   ],
