@@ -24,17 +24,11 @@ like light painting
 
 opens with a blank screen?
 
-30 off
-30 on
-30 off
-
-(random delay - kayla)
-sound detection
-motion detection
-
-splicing in different footage
-
-layer frames
+[x] 30 off/30 on/30 off(random delay - kayla)
+[] sound detection
+[] motion detection
+[] splicing in different footage
+[x] layer frames
 if ppl know they're being filmed, are they less risky?
 
 ### technical concerns
@@ -47,3 +41,5 @@ lighting
 in memory as metaphor for all of it just disappearing
 how do we just let go physically and digitally
 if you can let go of creation in the sand can you let go of images of self?
+
+### 16 November

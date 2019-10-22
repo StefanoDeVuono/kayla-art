@@ -37,6 +37,24 @@ const sketch = p => {
   }
 
   p.draw = _ => {
+    p.background(0)
+    if (process.env.NODE_ENV === 'development') debugText(p)
+    let frame
+    if (frames.length === DELAY_IN_SECONDS) {
+      frame = frames.shift()
+      p.image(frame, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+      // p.filter(p.INVERT)
+    } else {
+      // let image = getImage(capture)
+      // // cache.push(image)
+      // frames.push(image)
+      // p.image(capture, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+    }
+    let image = getImage(capture)
+    frames.push(image)
+  }
+
+  const useCache = _ => {
     let frame
 
     if (cache.length === DELAY_IN_SECONDS * 2) {
@@ -60,7 +78,8 @@ const sketch = p => {
   }
 }
 
-const useCache = ({ p, cache, frames, capture }) => {
+const useCache = ({}) => {}
+const _useCache = ({ p, cache, frames, capture }) => {
   // if (process.env.NODE_ENV === 'development') debugText(p)
   let frame
 
@@ -69,22 +88,13 @@ const useCache = ({ p, cache, frames, capture }) => {
     // split cache in two [frames, ...restOfCache]
     // frames = cache
     frames = cache.splice(0, DELAY_IN_SECONDS)
-    // cache = []
   }
-  // cache []            frames []
-  // cache [123]         frames []
-  // cache [123 456]     frames []
-  // cache [456]         frames [123]
-  // cache [456 789]     frames []
-  // cache [789]         frames [456]
-  // cache [789]         frames []
 
   if (frames.length > 0) {
     // play frames
     if (process.env.NODE_ENV === 'development') console.log('play frames')
     frame = frames.shift()
     p.image(frame, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-    debugger
   } else {
     // play present
     if (process.env.NODE_ENV === 'development') console.log('play present')
