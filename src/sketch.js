@@ -2,9 +2,11 @@ const P5 = require('p5')
 const P5Dom = require('p5/lib/addons/p5.dom')
 let seconds
 
-const [CANVAS_WIDTH, CANVAS_HEIGHT] = [1280, 720]
-const FRAMES_PER_SECOND = 30
-const DELAY_IN_SECONDS = 10 * FRAMES_PER_SECOND
+const [CANVAS_WIDTH, CANVAS_HEIGHT] = [640, 360]
+// const [CANVAS_WIDTH, CANVAS_HEIGHT] = [320, 180]
+
+const FRAMES_PER_SECOND = 24
+const DELAY_IN_SECONDS = 5 * FRAMES_PER_SECOND
 
 if (process.env.NODE_ENV === 'development') {
   seconds = 0
@@ -13,28 +15,18 @@ if (process.env.NODE_ENV === 'development') {
   }, 1000)
 }
 
-const sketch = p => {
-  debugger
-  let capture
-  let frames = []
-  let cache = []
+let capture
+let frames = []
+let cache = []
 
+const sketch = p => {
   p.setup = () => {
-    debugger
     p.background(255)
     p.frameRate(FRAMES_PER_SECOND)
     let canvas = p.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     capture = p.createCapture(p.VIDEO)
     capture.size(CANVAS_WIDTH, CANVAS_HEIGHT)
     capture.hide()
-  }
-
-  p.draw = useCache
-
-  // cache = [123 456 789]
-
-  function getImage(capture) {
-    return capture.get(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
   }
 
   function debugText(p) {
@@ -44,44 +36,82 @@ const sketch = p => {
     p.fill(0)
   }
 
-  new P5(sketch)
-
-  const useCache = _ => {
-    if (process.env.NODE_ENV === 'development') debugText(p)
+  p.draw = _ => {
     let frame
+
     if (cache.length === DELAY_IN_SECONDS * 2) {
       // if cache is too long
-      // split cache in two [frames, ...restOfCache]
-      frames = cache
-      cache = []
+      console.log('split cache')
+
+      frames = cache.splice(0, DELAY_IN_SECONDS) // split cache in two [frames, ...restOfCache]
     }
-    if (frames.length === 0) {
-      // play present
-      p.image(capture, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-    } else {
+
+    if (frames.length > 0) {
       // play frames
+      console.log('play frames')
       frame = frames.shift()
       p.image(frame, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+    } else {
+      // play present
+      p.image(capture, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+      let image = getImage(capture)
+      cache.push(image)
     }
+  }
+}
+
+const useCache = ({ p, cache, frames, capture }) => {
+  // if (process.env.NODE_ENV === 'development') debugText(p)
+  let frame
+
+  if (cache.length === DELAY_IN_SECONDS * 2) {
+    // if cache is too long
+    // split cache in two [frames, ...restOfCache]
+    // frames = cache
+    frames = cache.splice(0, DELAY_IN_SECONDS)
+    // cache = []
+  }
+  // cache []            frames []
+  // cache [123]         frames []
+  // cache [123 456]     frames []
+  // cache [456]         frames [123]
+  // cache [456 789]     frames []
+  // cache [789]         frames [456]
+  // cache [789]         frames []
+
+  if (frames.length > 0) {
+    // play frames
+    if (process.env.NODE_ENV === 'development') console.log('play frames')
+    frame = frames.shift()
+    p.image(frame, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+    debugger
+  } else {
+    // play present
+    if (process.env.NODE_ENV === 'development') console.log('play present')
+    p.image(capture, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
     let image = getImage(capture)
     cache.push(image)
   }
-
-  const glitchyOverlay = _ => {
-    p.background(0)
-    if (process.env.NODE_ENV === 'development') debugText(p)
-    let frame
-    if (frames.length === DELAY_IN_SECONDS) {
-      frame = frames.shift()
-      p.image(frame, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-      // p.filter(p.INVERT)
-    } else {
-      // let image = getImage(capture)
-      // // cache.push(image)
-      // frames.push(image)
-      // p.image(capture, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-    }
-    let image = getImage(capture)
-    frames.push(image)
-  }
 }
+
+const glitchyOverlay = ({ p, frames, capture }) => {
+  p.background(0)
+  if (process.env.NODE_ENV === 'development') debugText(p)
+  let frame
+  if (frames.length === DELAY_IN_SECONDS) {
+    frame = frames.shift()
+    p.image(frame, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+    // p.filter(p.INVERT)
+  } else {
+    // let image = getImage(capture)
+    // // cache.push(image)
+    // frames.push(image)
+    // p.image(capture, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+  }
+  let image = getImage(capture)
+  frames.push(image)
+}
+
+const getImage = capture => capture.get(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
+new P5(sketch)
