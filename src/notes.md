@@ -26,7 +26,7 @@ opens with a blank screen?
 
 [x] 30 off/30 on/30 off(random delay - kayla)
 [] sound detection
-[] motion detection - https://www.tetoki.eu/vida/active_zones_demystified_progressive_background_camera.html
+[] motion detection - https://www.tetoki.eu/vida/active_zones_demystified_progressive_background_camera.html (maybe use the 5 thresholds to toggle between past and present)
 [] splicing in different footage
 [x] layer frames
 if ppl know they're being filmed, are they less risky?
